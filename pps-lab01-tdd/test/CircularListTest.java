@@ -1,17 +1,69 @@
+import lab01.tdd.CircularList;
+import lab01.tdd.CircularListImpl;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * The test suite for testing the CircularList implementation
  */
 public class CircularListTest {
 
-    //TODO: test implementation
+    private CircularList circularList;
 
-    @Disabled
-    @Test public void testTodo(){
-        Assertions.fail();
+    @BeforeEach
+    void setUp() {
+        circularList = new CircularListImpl();
     }
+
+    @Test
+    void testEmpty(){
+      assertTrue(circularList.isEmpty());
+    }
+
+    @Test
+    void testAddElement(){
+        int element = 1;
+        circularList.add(element);
+        assertFalse(circularList.isEmpty());
+    }
+
+    @Test
+    void testListSize(){
+        int element = 1;
+        circularList.add(element);
+        assertEquals(1, circularList.size());
+    }
+
+    @Test
+    void testNext(){
+        int element = 1;
+        circularList.add(element);
+        assertEquals(Optional.of(element), circularList.next());
+    }
+
+    @Test
+    void testCircularNext(){
+        int firstElement = 1;
+        int secondElement = 2;
+        int thirdElement = 3;
+
+        circularList.add(firstElement);
+        circularList.add(secondElement);
+        circularList.add(thirdElement);
+
+        circularList.next();
+        circularList.next();
+        circularList.next();
+        Optional<Integer> result = circularList.next();
+
+        assertEquals(result, Optional.of(firstElement));
+    }
+
 
 }

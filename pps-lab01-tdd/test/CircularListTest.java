@@ -99,11 +99,9 @@ public class CircularListTest {
         circularList.add(thirdElement);
 
         circularList.next();
-        circularList.next();
-
         circularList.reset();
 
-        assertEquals(Optional.of(firstElement), circularList.previous());
+        assertEquals(Optional.of(secondElement), circularList.next());
     }
 
 

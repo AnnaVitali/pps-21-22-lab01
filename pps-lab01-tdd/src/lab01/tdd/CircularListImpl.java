@@ -46,14 +46,14 @@ public class CircularListImpl implements CircularList{
 
     @Override
     public void reset() {
-        int currentElement = this.circularList.get(this.currentIndex);
-        this.circularList.remove(this.currentIndex);
+        List<Integer> resetList = new LinkedList<>();
 
-        List<Integer> oldList = new LinkedList<>(this.circularList);
-        this.circularList.removeAll(oldList);
+        for(int i = 0; i < this.circularList.size(); i++){
+            resetList.add(this.next().get());
+        }
 
-        this.circularList.add(currentElement);
-        this.circularList.addAll(oldList);
+        this.circularList = resetList;
+        this.currentIndex = 0;
     }
 
     @Override

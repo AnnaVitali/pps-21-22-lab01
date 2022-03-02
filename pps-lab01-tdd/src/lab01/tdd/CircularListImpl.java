@@ -3,6 +3,7 @@ package lab01.tdd;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class CircularListImpl implements CircularList{
 
@@ -32,22 +33,41 @@ public class CircularListImpl implements CircularList{
     @Override
     public Optional<Integer> next() {
         Optional<Integer> result = Optional.of(this.circularList.get(currentIndex));
-        this.currentIndex = this.currentIndex == circularList.size() - 1 ? 0 :  this.currentIndex + 1;
+        this.updateIndexNext();
         return result;
     }
 
     @Override
     public Optional<Integer> previous() {
-        return Optional.empty();
+        this.updateIndexPrevious();
+        Optional<Integer> result = Optional.of(this.circularList.get(currentIndex));
+        return result;
     }
 
     @Override
     public void reset() {
+        int currentElement = this.circularList.get(this.currentIndex);
+        this.circularList.remove(this.currentIndex);
 
+        List<Integer> oldList = new LinkedList<>(this.circularList);
+        this.circularList.removeAll(oldList);
+
+        this.circularList.add(currentElement);
+        this.circularList.addAll(oldList);
     }
 
     @Override
     public Optional<Integer> next(SelectStrategy strategy) {
-        return Optional.empty();
+        List<Integer> nextElements = this.circularList.subList(this.currentIndex, this.circularList.size());
+        this.updateIndexNext();
+        return Optional.of(nextElements.stream().filter(strategy::apply).collect(Collectors.toList()).get(0));
+    }
+
+    private void updateIndexNext(){
+        this.currentIndex = this.currentIndex == circularList.size() - 1 ? 0 :  this.currentIndex + 1;
+    }
+
+    private void updateIndexPrevious(){
+        this.currentIndex = this.currentIndex == 0 ? this.circularList.size() - 1 : this.currentIndex - 1;
     }
 }

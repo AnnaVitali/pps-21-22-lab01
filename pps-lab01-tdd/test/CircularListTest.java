@@ -60,10 +60,55 @@ public class CircularListTest {
         circularList.next();
         circularList.next();
         circularList.next();
-        Optional<Integer> result = circularList.next();
 
-        assertEquals(result, Optional.of(firstElement));
+        assertEquals(circularList.next(), Optional.of(firstElement));
     }
+
+    @Test
+    void testPrevious(){
+        int element = 1;
+        circularList.add(element);
+        assertEquals(Optional.of(element), circularList.previous());
+    }
+
+    @Test
+    void testCircularPrevious(){
+        int firstElement = 1;
+        int secondElement = 2;
+        int thirdElement = 3;
+
+        circularList.add(firstElement);
+        circularList.add(secondElement);
+        circularList.add(thirdElement);
+
+        circularList.previous();
+        circularList.previous();
+        circularList.previous();
+
+        assertEquals(circularList.next(), Optional.of(firstElement));
+    }
+
+    @Test
+    void testReset(){
+        int firstElement = 1;
+        int secondElement = 2;
+        int thirdElement = 3;
+
+        circularList.add(firstElement);
+        circularList.add(secondElement);
+        circularList.add(thirdElement);
+
+        circularList.next();
+        circularList.next();
+
+        circularList.reset();
+
+        assertEquals(Optional.of(firstElement), circularList.previous());
+    }
+
+
+
+
 
 
 }
